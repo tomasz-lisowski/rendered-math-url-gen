@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rendered Math URL Generator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+        * {
+            font-family: 'Open Sans', sans-serif;
+        }
+        html {
+            height: 100%;
+        }
+        body {
+            min-height: 100%;
+            margin: 0;
+            padding: 0;
+            border: none;
+        }
+        label {
+            font-size: 1.4em;
+            line-height: 2em;
+        }
+        textarea {
+            outline: none;
+            resize: none;
+            font-size: 1.1em;
+        }
+        .center {
+            margin: auto;
+            width: 60%;
+            padding: 10px;
+        }
+        .col {
+            width: 48%;
+            height: 100%;
+            display: inline-block;
+        }
+        .colbox {
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+        }
+        .row {
+            width: 100%;
+            display: block;
+        }
+        .rowbox {
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+        }
+        #left-col {
+            float: left;
+        }
+        #right-col {
+            float: right;
+        }
+        @media screen and (max-width: 800px) {
+            .col {
+                width: 100%;
+                display: block;
+            }
+            .center {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="center">
+        <h1>Rendered Math URL Generator</h1>
+        <p>Input the formula on the left, the rendered formula will be displayed on the right. The renderer used ("render.githubusercontent.com") is quite slow so don't expect instant updates.</p>
+
+        <div class="row">
+            <label for="render-url">URL:</label>
+            <br>
+            <input class="rowbox" type="text" id="render-url" onClick="this.setSelectionRange(0, this.value.length)" value="">
+        </div>
+        <div>
+            <div class="col" id="left-col">
+                <label for="input">Input:</label>
+                <br>
+                <textarea class="colbox" id="input" rows="15">{\displaystyle {\mathcal {X}}=\left\{x\in X\vert g_{1}(x),\ldots ,g_{m}(x)\leq 0\right\}.}</textarea>
+            </div>
+        
+            <div class="col" id="right-col">
+                <label for="render-image">Output:</label>
+                <br>
+                <img class="colbox" id="render-image" src="" alt="rendered math formula" loading="eager">
+            </div>
+        </div>
+        <script>
+            const input_box = document.getElementById('input');
+            const output_image = document.getElementById('render-image');
+            const renderer_url = "https://render.githubusercontent.com/render/math?math=";
+            const generated_url = document.getElementById('render-url');
+
+            input_box.addEventListener('input', (event) => {
+                update_render_src();
+            });
+
+            function update_render_src()
+            {
+                generated_url.value = renderer_url + encodeURIComponent(input_box.value)
+                output_image.src = generated_url.value;
+            }
+
+            window.onload = function() {
+                update_render_src();
+            };
+        </script>
+    </main>
+</body>
+</html>
